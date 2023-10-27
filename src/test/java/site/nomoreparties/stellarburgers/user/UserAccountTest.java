@@ -1,5 +1,7 @@
 package site.nomoreparties.stellarburgers.user;
 
+import io.qameta.allure.Step;
+import org.apache.commons.lang3.StringUtils;
 import site.nomoreparties.stellarburgers.baseRule.BaseRule;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -13,13 +15,14 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static site.nomoreparties.stellarburgers.constantsApi.ApiEndPoints.BASE_URL;
-import static site.nomoreparties.stellarburgers.pages.AccountPage.ACCOUNT_URL;
+import static site.nomoreparties.stellarburgers.constantsApi.ApiEndPoints.ACCOUNT_URL;
 
 public class UserAccountTest extends BaseRule {
     private UserConstructor userConstructor;
     private HomePage homePage;
     private LoginPage loginPage;
     private UserSteps userSteps;
+    private String accessToken = new String();
 
 
     @Before
@@ -69,7 +72,8 @@ public class UserAccountTest extends BaseRule {
     }
 
     @After
-    public void clearState() {
-        userConstructor = null;
+    @Step("Delete user")
+    public void userDelete() {
+        userSteps.userDelete(StringUtils.substringAfter(accessToken, ""));
     }
 }

@@ -1,5 +1,7 @@
 package site.nomoreparties.stellarburgers.user;
 
+import io.qameta.allure.Step;
+import org.apache.commons.lang3.StringUtils;
 import site.nomoreparties.stellarburgers.baseRule.BaseRule;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -20,9 +22,10 @@ public class UserLoginTest extends BaseRule {
     private UserSteps userSteps;
     private RegisterPage registerPage;
     private ForgotPasswordPage forgotPasswordPage;
+    private String accessToken = new String();
 
 
-   @Before
+    @Before
     public void setUp() {
         userConstructor = UserRandom.getUserRandom();
         homePage = new HomePage(driver);
@@ -33,7 +36,7 @@ public class UserLoginTest extends BaseRule {
 
     @Test
     @DisplayName("Log in using the \"Log in to account\" button on the main page")
-    public void loginUserByLoginButton(){
+    public void loginUserByLoginButton() {
         homePage.clickButtonLoginAccount();
         loginPage.fillLoginForm(userConstructor.getEmail(), userConstructor.getPassword());
         boolean isDisplayed = loginPage.buttonLoginIsDisplayed();
@@ -45,7 +48,7 @@ public class UserLoginTest extends BaseRule {
 
     @Test
     @DisplayName("Login via the \"Personal Account\" button")
-    public void loginUserByAccountButton(){
+    public void loginUserByAccountButton() {
         homePage.clickButtonAccount();
         loginPage.fillLoginForm(userConstructor.getEmail(), userConstructor.getPassword());
         boolean isDisplayed = loginPage.buttonLoginIsDisplayed();
@@ -57,7 +60,7 @@ public class UserLoginTest extends BaseRule {
 
     @Test
     @DisplayName("Login via the button in the registration form")
-    public void loginUserByRegisterPage(){
+    public void loginUserByRegisterPage() {
         registerPage = new RegisterPage(driver);
         homePage.clickButtonAccount();
         loginPage.clickRegisterLink();
@@ -72,7 +75,7 @@ public class UserLoginTest extends BaseRule {
 
     @Test
     @DisplayName("Login via the button in the password recovery form")
-    public void loginUserByForgotPasswordPage(){
+    public void loginUserByForgotPasswordPage() {
         forgotPasswordPage = new ForgotPasswordPage(driver);
         homePage.clickButtonAccount();
         loginPage.clickForgotPasswordLink();
@@ -86,7 +89,9 @@ public class UserLoginTest extends BaseRule {
     }
 
     @After
-    public void clearState() {
-        userConstructor = null;
+    @Step("Delete user")
+    public void userDelete() {
+        userSteps.userDelete(StringUtils.substringAfter(accessToken, ""));
     }
 }
+

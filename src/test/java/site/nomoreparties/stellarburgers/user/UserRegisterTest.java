@@ -2,7 +2,6 @@ package site.nomoreparties.stellarburgers.user;
 
 import site.nomoreparties.stellarburgers.baseRule.BaseRule;
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.pages.HomePage;
@@ -46,14 +45,9 @@ public class UserRegisterTest extends BaseRule {
     public void registerUserNotValidPassword() {
         homePage.clickButtonAccount();
         loginPage.clickRegisterLink();
-        registerPage.fillRegisterForm(userConstructor.getName(), userConstructor.getEmail(), "123z5");
+        registerPage.fillRegisterForm(userConstructor.getName(), userConstructor.getEmail(), RegisterPage.INVALID_PASSWORD);
         String text = registerPage.getTextErrorPassword();
         assertThat("Incorrect error about incorrect password ",
                 text, containsString("Некорректный пароль"));
-    }
-
-    @After
-    public void clearState() {
-        userConstructor = null;
     }
 }
