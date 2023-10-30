@@ -1,10 +1,9 @@
 package site.nomoreparties.stellarburgers.user;
 
-import io.qameta.allure.Step;
 import org.apache.commons.lang3.StringUtils;
 import site.nomoreparties.stellarburgers.baseRule.BaseRule;
 import io.qameta.allure.junit4.DisplayName;
-import org.junit.After;
+
 import org.junit.Before;
 import org.junit.Test;
 import site.nomoreparties.stellarburgers.pages.AccountPage;
@@ -22,7 +21,6 @@ public class UserAccountTest extends BaseRule {
     private HomePage homePage;
     private LoginPage loginPage;
     private UserSteps userSteps;
-    private String accessToken = new String();
 
 
     @Before
@@ -42,6 +40,8 @@ public class UserAccountTest extends BaseRule {
         homePage.clickButtonAccount();
         String actualUrl = driver.getCurrentUrl();
         assertEquals("URL doesn't match", ACCOUNT_URL, actualUrl);
+        String accessToken = homePage.getAccessToken();
+        userSteps.userDelete(StringUtils.substringAfter(accessToken, ""));
     }
 
     @Test
@@ -51,6 +51,8 @@ public class UserAccountTest extends BaseRule {
         homePage.clickButtonConstructor();
         String actualUrl = driver.getCurrentUrl();
         assertEquals("URL doesn't match", BASE_URL, actualUrl);
+        String accessToken = homePage.getAccessToken();
+        userSteps.userDelete(StringUtils.substringAfter(accessToken, ""));
     }
 
     @Test
@@ -60,20 +62,18 @@ public class UserAccountTest extends BaseRule {
         homePage.clickLinkLogoBurgers();
         String actualUrl = driver.getCurrentUrl();
         assertEquals("URL doesn't match", BASE_URL, actualUrl);
+        String accessToken = homePage.getAccessToken();
+        userSteps.userDelete(StringUtils.substringAfter(accessToken, ""));
     }
 
     @Test
     @DisplayName("Log out using the \"Log out\" button in your personal account")
     public void logoutUserByLogoutButton() {
         homePage.clickButtonAccount();
+        String accessToken = homePage.getAccessToken();
         new AccountPage(driver).clickLogoutButton();
         String text = loginPage.getTextLoginForm();
         assertThat("There was no transition to the login page",text, containsString("Вход"));
-    }
-
-    @After
-    @Step("Delete user")
-    public void userDelete() {
         userSteps.userDelete(StringUtils.substringAfter(accessToken, ""));
     }
 }

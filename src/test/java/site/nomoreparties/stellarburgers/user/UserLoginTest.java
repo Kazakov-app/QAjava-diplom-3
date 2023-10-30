@@ -22,7 +22,6 @@ public class UserLoginTest extends BaseRule {
     private UserSteps userSteps;
     private RegisterPage registerPage;
     private ForgotPasswordPage forgotPasswordPage;
-    private String accessToken = new String();
 
 
     @Before
@@ -91,6 +90,7 @@ public class UserLoginTest extends BaseRule {
     @After
     @Step("Delete user")
     public void userDelete() {
+        String accessToken = homePage.getAccessToken();
         userSteps.userDelete(StringUtils.substringAfter(accessToken, ""));
     }
 }

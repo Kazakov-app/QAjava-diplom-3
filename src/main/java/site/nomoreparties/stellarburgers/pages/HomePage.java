@@ -3,6 +3,8 @@ package site.nomoreparties.stellarburgers.pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.html5.LocalStorage;
+import org.openqa.selenium.html5.WebStorage;
 
 public class HomePage {
     private static WebDriver driver;
@@ -63,4 +65,12 @@ public class HomePage {
         String fillingClass = driver.findElement(buttonIngredientsFilling).getAttribute("class").toString();
         return fillingClass;
     }
+
+    @Step("Get AccessToken from localStorage")
+    public String getAccessToken() {
+        LocalStorage localStorage = ((WebStorage) driver).getLocalStorage();
+        String accessToken = localStorage.getItem("accessToken");
+        return accessToken;
+    }
+
 }

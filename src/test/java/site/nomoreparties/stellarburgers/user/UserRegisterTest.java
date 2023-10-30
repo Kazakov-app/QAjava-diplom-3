@@ -12,6 +12,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.*;
 
 public class UserRegisterTest extends BaseRule {
+    public static final String INVALID_PASSWORD = "123z5";
     private UserConstructor userConstructor;
     private HomePage homePage;
     private RegisterPage registerPage;
@@ -45,7 +46,7 @@ public class UserRegisterTest extends BaseRule {
     public void registerUserNotValidPassword() {
         homePage.clickButtonAccount();
         loginPage.clickRegisterLink();
-        registerPage.fillRegisterForm(userConstructor.getName(), userConstructor.getEmail(), RegisterPage.INVALID_PASSWORD);
+        registerPage.fillRegisterForm(userConstructor.getName(), userConstructor.getEmail(), INVALID_PASSWORD);
         String text = registerPage.getTextErrorPassword();
         assertThat("Incorrect error about incorrect password ",
                 text, containsString("Некорректный пароль"));

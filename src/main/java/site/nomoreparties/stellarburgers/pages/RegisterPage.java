@@ -16,7 +16,6 @@ public class RegisterPage {
     private final By passwordInput = By.xpath(".//label[text()='Пароль']//following-sibling::input");
     private final By buttonRegister = By.xpath("//button[text()='Зарегистрироваться']");
     private final By errorPassword = By.xpath("//p[text()='Некорректный пароль']");
-    public static final String INVALID_PASSWORD = "123z5";
 
     @Step("Click login link")
     public RegisterPage clickLoginLink() {
